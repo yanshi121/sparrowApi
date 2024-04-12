@@ -23,6 +23,11 @@ class SparrowApi(threading.Thread):
         self.log_file = ""
 
     def _log_(self, save_data):
+        """
+        日志记录
+        :param save_data: 需要记录的日志内容
+        :return:
+        """
         if self.is_save_log:
             with open(self.log_file, 'a', encoding='utf-8') as f:
                 f.write(f"{save_data}\n")
@@ -185,6 +190,18 @@ class SparrowApi(threading.Thread):
         return decorator
 
     def _return_(self, request, client_socket, path_, address, handler, content_type, headers, method):
+        """
+        解析数据以及返回数据
+        :param request: socket的获取到的数据
+        :param client_socket: socket服务
+        :param path_: 路由地址
+        :param address: 发送求情的地址
+        :param handler: 路由绑定的方法
+        :param content_type: 返回数据的类型
+        :param headers: 请求头
+        :param method: 请求方法
+        :return:
+        """
         data = {}
         new_body = ""
         if len(path_.split("?")) == 2:
@@ -293,6 +310,11 @@ class SparrowApi(threading.Thread):
         return result.__dict__
 
     def _decode_header_(self, request):
+        """
+        解析请求头
+        :param request: socket获取的数据
+        :return:
+        """
         headers_dict = {}
         headers = request.split("\r\n\r\n")[0].split("\r\n")[1:]
         for header in headers:
@@ -301,6 +323,12 @@ class SparrowApi(threading.Thread):
         return headers_dict
 
     def _handle_request_(self, client_socket, address):
+        """
+        socket运行主方法
+        :param client_socket: socket服务
+        :param address: 请求发动的地址
+        :return:
+        """
         request_data = client_socket.recv(4096)
         if not request_data:
             return

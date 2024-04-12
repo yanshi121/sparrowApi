@@ -1,4 +1,7 @@
 class ContentType:
+    """
+    ContentType默认数据
+    """
     TEXT = {"Content-Type": "text/plain"}
     HTML = {"Content-Type": "text/html"}
     CSS = {"Content-Type": "text/css"}
@@ -16,4 +19,7 @@ class ContentType:
 
 
 class Main:
+    """
+    主要的固定参数
+    """
     MAX_LISTEN = 20
