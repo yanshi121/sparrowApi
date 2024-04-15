@@ -32,7 +32,7 @@ class SparrowApi(threading.Thread):
             with open(self.log_file, 'a', encoding='utf-8') as f:
                 f.write(f"{save_data}\n")
 
-    def _register_(self, path, func, method, content_type):
+    def _register_(self, path: str, func, method: str, content_type: dict, cors: list) -> None:
         """
         路由注册
         :param path: 路由
@@ -50,16 +50,18 @@ class SparrowApi(threading.Thread):
                     f"{str(datetime.datetime.now()).split('.')[0]} path:{path} -> function:{func.__name__}() not _register_ because {self._routes_[path]['methods'][method].__name__}() use {method} method already in {self._name_}")
             else:
                 self._show_routes_.append({path: method})
-                self._routes_[path][method] = {"func": func, "content_type": content_type_str}
+                self._routes_[path][method] = {"func": func, "content_type": content_type_str, "cors": cors}
                 self._routes_[path][method]['func'] = func
                 self._routes_[path][method]['content_type'] = content_type_str
+                self._routes_[path][method]['cors'] = cors
         else:
             self._show_routes_.append({path: method})
-            self._routes_[path] = {method: {"func": func, "content_type": content_type_str}}
+            self._routes_[path] = {method: {"func": func, "content_type": content_type_str, "cors": cors}}
 
-    def route(self, path='/', methods=None, content_type=None):
+    def route(self, path: str = '/', methods: list = None, content_type: dict = None, cors: list = None):
         """
         基础路由设置
+        :param cors: 跨域信息
         :param path: 默认路由地址为/
         :param methods: 默认请求方法为GET，POST，PUT，DELETE，PATCH，HEAD，OPTIONS
         :param content_type: 发送的数据类型，默认为text，基础类型在ContentType中，可以自定义，同时也为所有的请求头，传入类型为dict
@@ -69,122 +71,152 @@ class SparrowApi(threading.Thread):
             methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS']
         if content_type is None:
             content_type = self._content_type_
-
+        if cors is not None:
+            if type(cors) is not list:
+                raise TypeError('cors must be a list')
         def decorator(func):
             for method in methods:
-                self._register_(path, func, method, content_type)
+                self._register_(path, func, method, content_type, cors)
             return func
 
         return decorator
 
-    def get(self, path='/', content_type=None):
+    def get(self, path: str = '/', content_type: dict = None, cors: list = None):
         """
         路由设置，请求方法为GET
+        :param cors: 跨域信息
         :param path: 默认路由地址为/
         :param content_type: 发送的数据类型，默认为text，基础类型在ContentType中，可以自定义，同时也为所有的请求头，传入类型为dict
         :return:
         """
         if content_type is None:
             content_type = self._content_type_
+        if cors is not None:
+            if type(cors) is not list:
+                raise TypeError('cors must be a list')
 
         def decorator(func):
-            self._register_(path, func, "GET", content_type)
+            self._register_(path, func, "GET", content_type, cors)
             return func
 
         return decorator
 
-    def post(self, path='/', content_type=None):
+    def post(self, path: str = '/', content_type: dict = None, cors: list = None):
         """
         路由设置，请求方法为POST
+        :param cors: 跨域信息
         :param path: 默认路由地址为/
         :param content_type: 发送的数据类型，默认为text，基础类型在ContentType中，可以自定义，同时也为所有的请求头，传入类型为dict
         :return:
         """
         if content_type is None:
             content_type = self._content_type_
+        if cors is not None:
+            if type(cors) is not list:
+                raise TypeError('cors must be a list')
 
         def decorator(func):
-            self._register_(path, func, "POST", content_type)
+            self._register_(path, func, "POST", content_type, cors)
             return func
 
         return decorator
 
-    def head(self, path='/', content_type=None):
+    def head(self, path: str = '/', content_type: dict = None, cors: list = None):
         """
         路由设置，请求方法为HEAD
+        :param cors: 跨域信息
         :param path: 默认路由地址为/
         :param content_type: 发送的数据类型，默认为text，基础类型在ContentType中，可以自定义，同时也为所有的请求头，传入类型为dict
         :return:
         """
         if content_type is None:
             content_type = self._content_type_
+        if cors is not None:
+            if type(cors) is not list:
+                raise TypeError('cors must be a list')
 
         def decorator(func):
-            self._register_(path, func, "HEAD", content_type)
+            self._register_(path, func, "HEAD", content_type, cors)
             return func
 
         return decorator
 
-    def options(self, path='/', content_type=None):
+    def options(self, path: str = '/', content_type: dict = None, cors: list = None):
         """
         路由设置，请求方法为OPTIONS
+        :param cors: 跨域信息
         :param path: 默认路由地址为/
         :param content_type: 发送的数据类型，默认为text，基础类型在ContentType中，可以自定义，同时也为所有的请求头，传入类型为dict
         :return:
         """
         if content_type is None:
             content_type = self._content_type_
+        if cors is not None:
+            if type(cors) is not list:
+                raise TypeError('cors must be a list')
 
         def decorator(func):
-            self._register_(path, func, "OPTIONS", content_type)
+            self._register_(path, func, "OPTIONS", content_type, cors)
             return func
 
         return decorator
 
-    def put(self, path='/', content_type=None):
+    def put(self, path: str = '/', content_type: dict = None, cors: list = None):
         """
         路由设置，请求方法为PUT
+        :param cors: 跨域信息
         :param path: 默认路由地址为/
         :param content_type: 发送的数据类型，默认为text，基础类型在ContentType中，可以自定义，同时也为所有的请求头，传入类型为dict
         :return:
         """
         if content_type is None:
             content_type = self._content_type_
+        if cors is not None:
+            if type(cors) is not list:
+                raise TypeError('cors must be a list')
 
         def decorator(func):
-            self._register_(path, func, "PUT", content_type)
+            self._register_(path, func, "PUT", content_type, cors)
             return func
 
         return decorator
 
-    def delete(self, path='/', content_type=None):
+    def delete(self, path: str = '/', content_type: dict = None, cors: list = None):
         """
         路由设置，请求方法为DELETE
+        :param cors: 跨域信息
         :param path: 默认路由地址为/
         :param content_type: 发送的数据类型，默认为text，基础类型在ContentType中，可以自定义，同时也为所有的请求头，传入类型为dict
         :return:
         """
         if content_type is None:
             content_type = self._content_type_
+        if cors is not None:
+            if type(cors) is not list:
+                raise TypeError('cors must be a list')
 
         def decorator(func):
-            self._register_(path, func, "DELETE", content_type)
+            self._register_(path, func, "DELETE", content_type, cors)
             return func
 
         return decorator
 
-    def patch(self, path='/', content_type=None):
+    def patch(self, path: str = '/', content_type: dict = None, cors: list = None):
         """
         路由设置，请求方法为PATCH
+        :param cors: 跨域信息
         :param path: 默认路由地址为/
         :param content_type: 发送的数据类型，默认为text，基础类型在ContentType中，可以自定义，同时也为所有的请求头，传入类型为dict
         :return:
         """
         if content_type is None:
             content_type = self._content_type_
+        if cors is not None:
+            if type(cors) is not list:
+                raise TypeError('cors must be a list')
 
         def decorator(func):
-            self._register_(path, func, "PATCH", content_type)
+            self._register_(path, func, "PATCH", content_type, cors)
             return func
 
         return decorator
@@ -238,7 +270,7 @@ class SparrowApi(threading.Thread):
         print(message)
         self._log_(message)
 
-    def run(self, host="127.0.0.1", port=7012, try_model: bool = True, show_error: bool = True,
+    def run(self, host: str = "127.0.0.1", port: int = 7012, try_model: bool = True, show_error: bool = True,
             log_file: str = "%s.log", default_listen: int = Main.MAX_LISTEN, is_save_log: bool = True,
             content_type: dict = ContentType.TEXT, show_register: bool = False):
         """
@@ -345,6 +377,16 @@ class SparrowApi(threading.Thread):
                 if http_method in self._routes_[path].keys():
                     handler = self._routes_.get(path).get(http_method).get("func")
                     content_type = self._routes_.get(path).get(http_method).get("content_type")
+                    cors = self._routes_.get(path).get(http_method).get("cors")
+                    print(address)
+                    print(cors)
+                    if cors is not None:
+                        if cors[0] == "*":
+                            content_type += "Access-Control-Allow-Origin: *"
+                        else:
+                            if address[0] in cors:
+                                content_type += f"Access-Control-Allow-Origin: {address[0]}"
+                    print(content_type)
                     self._return_(request, client_socket, path_, address, handler, content_type, headers, http_method)
                 else:
                     response = 'HTTP/1.1 404 Not Found\r\nContent-Type: */*\r\n\r\nMethod Is Error'
