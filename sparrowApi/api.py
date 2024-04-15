@@ -209,7 +209,8 @@ class SparrowApi(threading.Thread):
             new_body = self._decode_url_parameter_(parameter)
         request_post_data = request.split("\r\n\r\n")[-1]
         for one_data in request_post_data.split("&"):
-            data[one_data.split("=")[0]] = one_data.split("=")[1]
+            if len(request_post_data.split("&")) > 0 and request_post_data.split("&")[0] != "":
+                data[one_data.split("=")[0]] = one_data.split("=")[1]
         parameter_num = len(inspect.signature(handler).parameters)
         parameter_list = list(inspect.signature(handler).parameters)
         response = None
