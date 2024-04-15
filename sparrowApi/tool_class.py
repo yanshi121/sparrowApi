@@ -112,7 +112,7 @@ class _ToolClass(object):
         return data
 
 
-def return_html(file_name, code):
+def return_html(file_name, code='utf-8'):
     """
     返回HTML数据，默认在根目录/static/html/目录下
     :param code: 读取文件编码，默认UTF-8
@@ -122,7 +122,7 @@ def return_html(file_name, code):
     return _ToolClass.return_html(file_name, code)
 
 
-def return_javascript(file_name, code):
+def return_javascript(file_name, code='utf-8'):
     """
     返回XML数据，默认在根目录/static/xml/目录下
     :param file_name: 文件名
@@ -132,7 +132,7 @@ def return_javascript(file_name, code):
     return _ToolClass.return_javascript(file_name, code)
 
 
-def return_json(file_name, code):
+def return_json(file_name, code='utf-8'):
     """
     返回JSON数据，默认在根目录/static/json/目录下
     :param file_name: 文件名
@@ -142,7 +142,7 @@ def return_json(file_name, code):
     return _ToolClass.return_json(file_name, code)
 
 
-def return_text(file_name, code):
+def return_text(file_name, code='utf-8'):
     """
     返回文本文件数据，默认在根目录/static/other/目录下
     :param file_name: 文件名
@@ -152,7 +152,7 @@ def return_text(file_name, code):
     return _ToolClass.return_text(file_name, code)
 
 
-def return_css(file_name, code):
+def return_css(file_name, code='utf-8'):
     """
     返回CSS数据，默认在根目录/static/css/目录下
     :param file_name: 文件名
@@ -162,7 +162,7 @@ def return_css(file_name, code):
     return _ToolClass.return_css(file_name, code)
 
 
-def return_xml(file_name, code):
+def return_xml(file_name, code='utf-8'):
     """
     返回XML数据，默认在根目录/static/xml/目录下
     :param file_name: 文件名
@@ -176,7 +176,6 @@ def return_image(file_name):
     """
     返回image数据，默认在根目录/static/image/目录下
     :param file_name: 文件名
-    :param code: 读取文件编码，默认UTF-8
     :return:
     """
     return _ToolClass.return_image(file_name)
@@ -186,7 +185,6 @@ def return_video(file_name):
     """
     返回video数据，默认在根目录/static/image/目录下
     :param file_name: 文件名
-    :param code: 读取文件编码，默认UTF-8
     :return:
     """
     return _ToolClass.return_video(file_name)
