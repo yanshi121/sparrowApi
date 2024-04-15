@@ -4,7 +4,7 @@ import socket
 import datetime
 import threading
 from colorama import Fore, init
-from constant import ContentType, Main
+from sparrowApi.constant import ContentType, Main
 
 
 class SparrowApi(threading.Thread):

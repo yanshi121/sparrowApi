@@ -1,5 +1,5 @@
 import json
-import os.path
+import os
 
 
 class _ToolClass(object):
