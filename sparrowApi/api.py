@@ -264,6 +264,13 @@ class SparrowApi(threading.Thread):
         self._default_listen_ = default_listen
         self._host_ = host
         self._port_ = port
+        if self._is_save_log_:
+            if log_file == "%s.log":
+                self._log_file_ = "%s.log" % (str(datetime.datetime.now()).split('.')[0].split(' ')[0])
+            else:
+                self._log_file_ = log_file
+            file = open(self._log_file_, "a")
+            file.close()
         if show_register:
             pprint.pprint(self._show_routes_)
         if try_model:
@@ -285,10 +292,6 @@ class SparrowApi(threading.Thread):
                         response = 'HTTP/1.1 404 Not Found\r\nContent-Type: */*\r\n\r\nParameter Not Bad'
                         client_socket.sendall(response.encode('utf-8'))
                         client_socket.close()
-                        if log_file == "%s.log":
-                            self._log_file_ = "%s.log" % (str(datetime.datetime.now()).split('.')[0].split(' ')[0])
-                        else:
-                            self._log_file_ = log_file
                         if show_error:
                             print(f"{str(datetime.datetime.now()).split('.')[0]} {e}")
                         self._log_(f"{str(datetime.datetime.now()).split('.')[0]} {e}")
